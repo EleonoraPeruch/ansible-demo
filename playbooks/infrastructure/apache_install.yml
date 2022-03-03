@@ -32,6 +32,9 @@
       enabled: true
       state: started
       
-  - name: deploy app
-    command: echo "<h1>Hello Everyone!!! Almost Lunch!</h1>" > /usr/share/httpd/noindex/index.html
+  - name: Creating a file with content
+    copy:
+      dest: "/var/www/html/index.html"
+      content: |
+        ciao
 
