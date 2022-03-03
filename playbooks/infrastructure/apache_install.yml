@@ -33,6 +33,5 @@
       state: started
       
   - name: deploy app
-    git: >
-      repo=https://github.com/EleonoraPeruch/ansible-demo.git
-      dest=/var/www/html/
+    command: echo "<h1>This is a Test Page</h1>" > /var/www/html/index.html
+
