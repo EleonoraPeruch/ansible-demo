@@ -1,0 +1,10 @@
+---
+- name: Deploy Static Page
+  hosts: all
+
+  tasks:  
+  - name: Creating a file with content
+    copy:
+      dest: "/var/www/html/index.html"
+      content: |
+        Error! Ansible was supposed to be cool...
