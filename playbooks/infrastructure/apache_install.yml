@@ -31,10 +31,3 @@
       name: httpd
       enabled: true
       state: started
-      
-  - name: Creating a file with content
-    copy:
-      dest: "/var/www/html/index.html"
-      content: |
-        Welcome Everyone! {{ app_version }}
-
