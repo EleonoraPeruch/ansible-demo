@@ -36,5 +36,5 @@
     copy:
       dest: "/var/www/html/index.html"
       content: |
-        Welcome Everyone! { app_version }
+        Welcome Everyone! {{ app_version }}
 
