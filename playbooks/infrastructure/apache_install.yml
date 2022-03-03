@@ -31,3 +31,8 @@
       name: httpd
       enabled: true
       state: started
+      
+  - name: deploy app
+    git: >
+      repo=https://github.com/EleonoraPeruch/ansible-demo.git
+      dest=/var/www/html/
