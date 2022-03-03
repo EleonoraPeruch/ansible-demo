@@ -36,5 +36,5 @@
     copy:
       dest: "/var/www/html/index.html"
       content: |
-        ciao
+        Welcome Everyone! V1
 
