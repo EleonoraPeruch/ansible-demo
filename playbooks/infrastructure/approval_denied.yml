@@ -3,8 +3,11 @@
   hosts: all
 
   tasks:  
-  - name: Creating a file with content
-    copy:
-      dest: "/var/www/html/index.html"
-      content: |
-        Error! Ansible was supposed to be cool...
+  - name: Sending notification email for App deployment failure
+    mail:
+      host: 3.70.245.128
+      port: 25
+      to: Eleonora Peruch <eperuch@redhat.com>
+      subject: Ansible Report for App Deployment failure
+      body: "Approval denied"
+    delegate_to: localhost
