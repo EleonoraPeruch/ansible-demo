@@ -3,8 +3,7 @@
   hosts: all
 
   tasks:  
-  - name: Sending notification email for App deployment failure
-    mail:
+  - mail:
       host: 3.70.245.128
       port: 25
       to: Eleonora Peruch <eperuch@redhat.com>
