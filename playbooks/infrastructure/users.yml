@@ -15,13 +15,13 @@
       ansible.builtin.user:
         name: "{{ item.username }}"
         groups: "{{ item.groups }}"
-        state: absent
+        state: present
       loop: "{{ users }}"
     
     - name: Assign password to users
       ansible.builtin.user:
         name: "{{ item.username }}"
         password: "{{ item.password | password_hash('sha512') }}"
-        state: absent
+        state: present
       loop: "{{ users }}"
 
