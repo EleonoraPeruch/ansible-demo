@@ -3,12 +3,6 @@
   hosts: all
   vars_files:
     - vars/users_vars.yml
-  handlers:
-  - name: Restart sshd
-    service:
-      name: sshd
-      state: restarted
-
 
   tasks:
     - name: Add webadmin group
@@ -30,15 +24,3 @@
         state: present
       loop: "{{ users }}"
 
-    - name: Modify sudo config to allow webadmin users sudo without a password
-      copy:
-        content: "%webadmin ALL=(ALL) NOPASSWD: ALL"
-        dest: /etc/sudoers.d/webadmin
-        mode: 0440
-
-    - name: Disable root login via SSH
-      lineinfile:
-        dest: /etc/ssh/sshd_config
-        regexp: "^PermitRootLogin"
-        line: "PermitRootLogin no"
-      notify: "Restart sshd"
