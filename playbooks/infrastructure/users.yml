@@ -2,7 +2,7 @@
 - name: Create multiple local users
   hosts: all
   vars_files:
-    - vars/users_vars.yml
+    - ../vars/users_vars.yml
 
   tasks:
     - name: Add webadmin group
