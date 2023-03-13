@@ -3,6 +3,12 @@
   hosts: all
   vars_files:
     - vars/users_vars.yml
+  handlers:
+  - name: Restart sshd
+    service:
+      name: sshd
+      state: restarted
+
 
   tasks:
     - name: Add webadmin group
@@ -16,10 +22,17 @@
         groups: "{{ item.groups }}"
         state: present
       loop: "{{ users }}"
-
+    
     - name: Assign password to users
       ansible.builtin.user:
         name: "{{ item.username }}"
         password: "{{ item.password | password_hash('sha512') }}"
         state: present
       loop: "{{ users }}"
+
+    - name: Disable root login via SSH
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^PermitRootLogin"
+        line: "PermitRootLogin no"
+      notify: "Restart sshd"
