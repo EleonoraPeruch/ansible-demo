@@ -1,4 +1,4 @@
-- name: Create AWS resources
+- name: Create AWS infra
   hosts: localhost
   connection: local
   gather_facts: False
@@ -80,21 +80,12 @@
         - 10.10.0.0/16
       vpc_id: "{{ my_vpc.vpc.id }}"
     register: ec2_route_table
-    
-  - name: debug
-    debug: 
-      msg: "{{ route_table.route_tables[0].id }}"
-    
+ 
+  - name: Pass variables to te next jobs
+    set_stats:
+      data:
+        aws_region: "{{ aws_region }}"
+        firewall: "{{ firewall }}"
+        ami_id: "{{ ami_id }}"
+        my_subnet: "{{ my_subnet }}"
 
-  - name: Create an EC2 instance
-    ec2_instance:
-      key_name: keypair_demo
-      region: "{{ aws_region }}"
-      security_group: "{{ firewall.group_id }}"
-      instance_type: "t2.micro"
-      image_id: "{{ ami_id }}"
-      vpc_subnet_id: "{{ my_subnet.subnet.id }}"
-      name: vm-demo
-      network:
-        assign_public_ip: true
-    register: ec2

@@ -4,6 +4,7 @@
 ---
 - name: Create Azure VM
   hosts: localhost
+  gather_facts: no
   connection: local
   
   vars:
@@ -15,7 +16,6 @@
   tasks:
   - name: Create a resource group
     azure_rm_resourcegroup:
-      
       name: "{{ resource_group }}"
       location: "{{ location }}"
   - name: Create virtual network
