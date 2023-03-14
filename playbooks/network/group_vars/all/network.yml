@@ -1,8 +1,8 @@
 ---
 network_connections:
   - name: eth1
+    state: present
     type: ethernet
     ip:
       address:
         - 172.25.250.30/24
-        
