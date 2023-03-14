@@ -1,6 +1,6 @@
 ---
 network_connections:
-  - name: eth1
+  - name: eth0
     state: present
     type: ethernet
     ip:
