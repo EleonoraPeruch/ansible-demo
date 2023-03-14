@@ -1,0 +1,7 @@
+---
+- name: NIC Configuration
+  hosts: all
+
+  roles:
+    - linux-system-roles.network
+    
