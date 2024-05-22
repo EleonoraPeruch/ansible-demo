@@ -2,12 +2,12 @@
 - name: Deploy Static Page
   hosts: all
 
-  tasks:  
-  - name: Deploy Application Failure notification
-    community.general.mail:
-      host: 3.70.245.128
-      port: 25
-      to: Eleonora Peruch <eperuch@redhat.com>
-      subject: Ansible Report for App Deployment failure
-      body: Approval denied
-    delegate_to: localhost
+  tasks:
+    - name: Deploy Application Failure notification
+      community.general.mail:
+        host: 3.70.245.128
+        port: 25
+        to: Eleonora Peruch <eperuch@redhat.com>
+        subject: Ansible Report for App Deployment failure
+        body: Approval denied
+      delegate_to: localhost

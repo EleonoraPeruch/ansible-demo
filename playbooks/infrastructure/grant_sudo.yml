@@ -14,10 +14,10 @@
 
     - name: create sudo rule
       copy:
-        dest: "/etc/sudoers.d/{{ sudo_user }}"
+        dest: /etc/sudoers.d/{{ sudo_user }}
         owner: root
         group: root
-        mode: 0640
+        mode: "0640"
         content: "{{ sudo_user }} ALL=(ALL) NOPASSWD:ALL"
 
     - name: install package
@@ -32,7 +32,7 @@
 
     - name: time based cleanup
       at:
-        command: "rm /etc/sudoers.d/{{ sudo_user }}"
+        command: rm /etc/sudoers.d/{{ sudo_user }}
         count: "{{ sudo_count | default('10') }}"
         units: "{{ sudo_units | default('minutes') }}"
       when: sudo_cleanup|bool

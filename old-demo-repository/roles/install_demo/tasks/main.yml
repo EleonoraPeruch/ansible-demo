@@ -10,7 +10,7 @@
 - name: provide info to terminal window
   debug:
     msg:
-      - "install {{ demo }} on {{ my_tower_host }}"
+      - install {{ demo }} on {{ my_tower_host }}
       - "total demos: {{ demo_list | length }}"
       - "available demos are: {{ demo_list }}"
 
@@ -21,7 +21,7 @@
       - demo in demo_list or demo == "all"
     msg:
       - "demo must be defined and be one of: {{ demo_list }}"
-      - "full list can be found on https://github.com/ansible/product-demos"
+      - full list can be found on https://github.com/ansible/product-demos
 
 - name: install all job templates
   include_tasks: job_template_loop.yml

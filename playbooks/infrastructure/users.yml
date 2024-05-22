@@ -1,7 +1,7 @@
 ---
 - name: Create multiple local users
   hosts: all
-  become: yes
+  become: true
   vars_files:
     - vars/users_vars.yml
 
@@ -17,11 +17,10 @@
         groups: "{{ item.groups }}"
         state: present
       loop: "{{ users }}"
-    
+
     - name: Assign password to users
       ansible.builtin.user:
         name: "{{ item.username }}"
         password: "{{ item.password | password_hash('sha512') }}"
         state: present
       loop: "{{ users }}"
-

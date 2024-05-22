@@ -1,7 +1,6 @@
 ---
 - hosts: ios
-  gather_facts: no
-
+  gather_facts: false
 
   vars:
 
@@ -9,29 +8,26 @@
       - ntp server 10.10.10.13
       - ntp server 10.10.10.14
 
-
-
   tasks:
+    - name: GET CONFIG
+      ios_command:
+        commands:
+          - show running-config full | include ntp server
+      register: get_config
 
-  - name: "GET CONFIG"
-    ios_command:
-      commands:
-        - "show running-config full | include ntp server"
-    register: get_config
+    - debug: var=get_config.stdout_lines
 
-  - debug: var=get_config.stdout_lines
-
-  - name: RUN 'Set NTP'
-    with_items: "{{ ntp_servers }}"
-    ios_config:
-      lines:
+    - name: RUN 'Set NTP'
+      with_items: "{{ ntp_servers }}"
+      ios_config:
+        lines:
           - "{{ item }}"
-    register: set_ntp
+      register: set_ntp
 
-  - name: RUN 'Remove NTP'
-    when: "(get_config.stdout_lines[0][0] != '') and (item not in ntp_servers)"
-    with_items: "{{ get_config.stdout_lines[0] }}"
-    register: remove_ntp
-    ios_config:
-      lines:
-        - "no {{ item }}"
+    - name: RUN 'Remove NTP'
+      when: (get_config.stdout_lines[0][0] != '') and (item not in ntp_servers)
+      with_items: "{{ get_config.stdout_lines[0] }}"
+      register: remove_ntp
+      ios_config:
+        lines:
+          - no {{ item }}

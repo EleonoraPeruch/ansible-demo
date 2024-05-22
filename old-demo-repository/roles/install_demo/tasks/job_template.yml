@@ -25,7 +25,6 @@
       - "credential: {{ job_template_definitions[demo].credential }}"
       - "survey_enabled: {{ job_template_definitions[demo].survey_enabled  | default('false')  }}"
 
-
 - name: add single job template without survey
   awx.awx.tower_job_template:
     name: "{{ job_template_definitions[demo].name }}"

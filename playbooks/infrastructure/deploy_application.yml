@@ -7,11 +7,11 @@
     - name: make sure application is not empty
       assert:
         that:
-          - "application != ''"
+          - application != ''
 
     - name: printing to terminal application information
       debug:
-        msg: "This Ansible Playbook will install {{application}}"
+        msg: This Ansible Playbook will install {{application}}
 
     - name: install application
       dnf:

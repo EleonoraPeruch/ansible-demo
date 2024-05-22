@@ -4,8 +4,8 @@
   gather_facts: false
 
   vars:
-    file_path: "/var/www/html/openscap/"
-    ssg_schema: "/usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml"
+    file_path: /var/www/html/openscap/
+    ssg_schema: /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml
 
   tasks:
     - name: make sure openscap-scanner and scap-security guide are installed
@@ -20,7 +20,7 @@
         path: "{{ssg_schema}}"
 
     - name: create HTML report
-      command: "oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_standard --results report.xml --report index.html {{ssg_schema}}"
+      command: oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_standard --results report.xml --report index.html {{ssg_schema}}
       register: command_result
       failed_when: "'Error' in command_result.stderr"
 
@@ -42,4 +42,4 @@
 
     - name: DISPLAY LINK TO INVENTORY REPORT
       debug:
-        msg: "Please go to http://{{ansible_host}}/openscap"
+        msg: Please go to http://{{ansible_host}}/openscap

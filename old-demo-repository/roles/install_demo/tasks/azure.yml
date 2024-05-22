@@ -3,7 +3,7 @@
   awx.awx.credential:
     name: azure_credential
     description: Azure Service Principle
-    organization: "Default"
+    organization: Default
     state: present
     credential_type: Microsoft Azure Resource Manager
     inputs:
