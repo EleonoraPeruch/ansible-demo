@@ -5,7 +5,7 @@
 
 - name: block for job template loop
   block:
-    - name: "add tower project job_template_loop.yml"
+    - name: add tower project job_template_loop.yml
       awx.awx.tower_project:
         name: "{{ item.value.project.name }}"
         description: "{{ item.value.project.description }}"
@@ -19,7 +19,7 @@
       when:
         - workshop_type in item.value.workshop_type
 
-    - name: "add job template {{ item.value.name }} without survey job_template_loop.yml"
+    - name: add job template {{ item.value.name }} without survey job_template_loop.yml
       awx.awx.tower_job_template:
         name: "{{ item.value.name }}"
         description: "{{ item.value.description }}"
@@ -42,7 +42,7 @@
       until: add_project is not failed
       retries: 5
 
-    - name: "add job template {{ item.value.name }} with survey"
+    - name: add job template {{ item.value.name }} with survey
       awx.awx.tower_job_template:
         name: "{{ item.value.name }}"
         description: "{{ item.value.description }}"

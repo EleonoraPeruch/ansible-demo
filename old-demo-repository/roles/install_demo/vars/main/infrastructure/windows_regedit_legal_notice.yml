@@ -1,14 +1,14 @@
 ---
 windows_regedit_legal_notice:
-  author: "David Rojas"
-  readme: "https://github.com/ansible/product-demos/blob/master/docs/infrastructure/windows_regedit_legal_notice.md"
+  author: David Rojas
+  readme: https://github.com/ansible/product-demos/blob/master/docs/infrastructure/windows_regedit_legal_notice.md
   category: infrastructure
-  name: "INFRASTRUCTURE / Windows regedit legal notice"
-  description: "using regedit modify the legal notice"
-  job_type: "run"
-  inventory: "Workshop Inventory"
-  playbook: "playbooks/infrastructure/windows_regedit_legal_notice.yml"
-  credential: "Workshop Credential"
+  name: INFRASTRUCTURE / Windows regedit legal notice
+  description: using regedit modify the legal notice
+  job_type: run
+  inventory: Workshop Inventory
+  playbook: playbooks/infrastructure/windows_regedit_legal_notice.yml
+  credential: Workshop Credential
   survey_enabled: true
   survey_spec:
     name: Legal Notice Survey
@@ -26,15 +26,15 @@ windows_regedit_legal_notice:
         question_description: Body should contain all legally required info
         variable: text_legal_notice
         required: true
-        default: This is a sample body of a legal notice        
-      
+        default: This is a sample body of a legal notice
+
   #video: "https://www.youtube.com/watch?v=pU8ZgSBuEJw&list=PLdu06OJoEf2bp-PNtxPP_2n7Avkax8TED"
   project:
-    name: "Ansible official demo project"
-    description: "prescriptive demos from Red Hat Management Business Unit"
-    organization: "Default"
+    name: Ansible official demo project
+    description: prescriptive demos from Red Hat Management Business Unit
+    organization: Default
     scm_type: git
-    scm_url: "https://github.com/ansible/product-demos"
+    scm_url: https://github.com/ansible/product-demos
   workshop_type:
     - windows
     - demo

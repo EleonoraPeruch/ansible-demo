@@ -6,4 +6,4 @@
   tasks:
     - name: install demo
       include_role:
-        name: "../roles/generate_readme"
+        name: ../roles/generate_readme

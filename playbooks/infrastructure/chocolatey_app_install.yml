@@ -7,10 +7,9 @@
     app_state: present
 
   collections:
-    - chocolatey.chocolatey  
+    - chocolatey.chocolatey
 
   tasks:
-
     - name: Install multiple packages
       win_chocolatey:
         name: "{{ choco_packages }}"

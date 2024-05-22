@@ -7,4 +7,4 @@
 
 - name: DISPLAY LINK TO INVENTORY REPORT
   debug:
-    msg: "Please go to http://{{ ansible_host }}/report"
+    msg: Please go to http://{{ ansible_host }}/report

@@ -1,7 +1,7 @@
 ---
 - name: Edit legal notice on start up message
   hosts: windows
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Updating Legal Notice Title

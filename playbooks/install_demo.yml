@@ -5,7 +5,6 @@
   connection: local
 
   tasks:
-
     - name: install demo
       include_role:
-        name: "../roles/install_demo"
+        name: ../roles/install_demo

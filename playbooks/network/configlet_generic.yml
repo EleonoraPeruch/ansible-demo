@@ -1,6 +1,6 @@
 ---
 - name: NIC Configuration
-  become: yes
+  become: true
   hosts: all
 
   roles:

@@ -10,7 +10,6 @@
   collections:
     - chocolatey.chocolatey
   tasks:
-
     - name: set configuration parameter
       win_chocolatey_config:
         name: "{{ config_item }}"

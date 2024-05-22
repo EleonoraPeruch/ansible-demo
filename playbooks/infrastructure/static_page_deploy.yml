@@ -2,9 +2,9 @@
 - name: Deploy Static Page
   hosts: all
 
-  tasks:  
-  - name: Creating a file with content
-    copy:
-      dest: "/var/www/html/index.html"
-      content: |
-        {{ web_content }}
+  tasks:
+    - name: Creating a file with content
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          {{ web_content }}

@@ -36,11 +36,10 @@ tags:
 
 build_ignore:
   - images
-  - '*.tar.gz'
+  - "*.tar.gz"
 
 dependencies:
-  "awx.awx": "*"
-
+  awx.awx: "*"
 
 repository: http://github.com/ansible/product-demos
 documentation: http://github.com/ansible/product-demos

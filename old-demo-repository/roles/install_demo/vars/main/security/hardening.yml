@@ -1,20 +1,20 @@
 ---
 hardening:
-  author: "Will Tome"
+  author: Will Tome
   category: security
-  name: "SECURITY / Hardening"
-  description: "hardening for Linux servers"
-  job_type: "run"
-  inventory: "Workshop Inventory"
-  playbook: "playbooks/security/hardening.yml"
-  credential: "Workshop Credential"
+  name: SECURITY / Hardening
+  description: hardening for Linux servers
+  job_type: run
+  inventory: Workshop Inventory
+  playbook: playbooks/security/hardening.yml
+  credential: Workshop Credential
   survey_enabled: true
-  execution_environment: "Default execution environment"
+  execution_environment: Default execution environment
   survey_spec:
-    name: ''
-    description: ''
+    name: ""
+    description: ""
     spec:
-      - question_name: 'Enter host to configure'
+      - question_name: Enter host to configure
         type: text
         variable: HOSTS
         required: false
@@ -23,35 +23,35 @@ hardening:
         variable: harden_firewall
         required: false
         choices:
-          - 'Yes'
-          - 'No'
+          - "Yes"
+          - "No"
       - question_name: Configure Time?
         type: multiplechoice
         variable: harden_time
         required: false
         choices:
-          - 'Yes'
-          - 'No'
+          - "Yes"
+          - "No"
       - question_name: Harden SSH?
         type: multiplechoice
         variable: harden_ssh
         required: false
         choices:
-          - 'Yes'
-          - 'No'
+          - "Yes"
+          - "No"
       - question_name: PCI Baseline?
         type: multiplechoice
         variable: harden_pci
         required: false
         choices:
-          - 'Yes'
-          - 'No'
+          - "Yes"
+          - "No"
   project:
-    name: "Ansible official demo project"
-    description: "prescriptive demos from Red Hat Management Business Unit"
-    organization: "Default"
+    name: Ansible official demo project
+    description: prescriptive demos from Red Hat Management Business Unit
+    organization: Default
     scm_type: git
-    scm_url: "https://github.com/ansible/product-demos"
+    scm_url: https://github.com/ansible/product-demos
   workshop_type:
     - f5
     - rhel

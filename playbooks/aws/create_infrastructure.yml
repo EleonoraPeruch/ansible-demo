@@ -1,91 +1,92 @@
+---
 - name: Create AWS infra
   hosts: localhost
   connection: local
-  gather_facts: False
+  gather_facts: false
 
   collections:
     - amazon.aws
 
   tasks:
+    - name: Setting the correct AMI per us-east-1
+      set_fact:
+        ami_id: ami-096fda3c22c1c990a
+      when: aws_region == "us-east-1"
 
-  - name: Setting the correct AMI per us-east-1
-    set_fact:
-      ami_id: ami-096fda3c22c1c990a
-    when: aws_region == "us-east-1"   
+    - name: Setting the correct AMI per us-east-1
+      set_fact:
+        ami_id: ami-09d9c5cdcfb8fc655
+      when: aws_region == "us-west-1"
 
-  - name: Setting the correct AMI per us-east-1
-    set_fact:
-      ami_id: ami-09d9c5cdcfb8fc655
-    when: aws_region == "us-west-1" 
+    - name: create a new ec2 key pair
+      ec2_key:
+        name: keypair_demo
+        region: "{{ aws_region }}"
+        key_material: ssh-rsa 
+          AAAAB3NzaC1yc2EAAAADAQABAAABAQDKGAWMhnBBUgK5vVLB77XqtrvY0Qk3Fye/bf2iNNNyjUVS3y8eNuP7vM5A0pS9hATJUU9GIva22XIe9p+Mm5BBX1qF09E2MbkKbk7OPMtmPDQxBo1jmwJlbawBwvGrpgQTBgMzFzaG5+CBTzsEji+UXWImCGO35XylIUkbIHSFvD995XK13aPhiWsje2k0rsS2wx6DOqXsAtIbPMoKrPnLaif/z76ir/Oj4kcBqObfvTUy1//oTTmj3quViDasnfSaoLeMGshT14LjjtGEvHiduh5877SU+z9nFEQw1MAnjxa9GX5kjEQjzH2Q5beZIwZWbx5d1ovmfB0WqY/V88SB
+          daniel@MacBook-Pro
 
-  - name: create a new ec2 key pair
-    ec2_key:
-      name: keypair_demo
-      region: "{{ aws_region }}"
-      key_material: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKGAWMhnBBUgK5vVLB77XqtrvY0Qk3Fye/bf2iNNNyjUVS3y8eNuP7vM5A0pS9hATJUU9GIva22XIe9p+Mm5BBX1qF09E2MbkKbk7OPMtmPDQxBo1jmwJlbawBwvGrpgQTBgMzFzaG5+CBTzsEji+UXWImCGO35XylIUkbIHSFvD995XK13aPhiWsje2k0rsS2wx6DOqXsAtIbPMoKrPnLaif/z76ir/Oj4kcBqObfvTUy1//oTTmj3quViDasnfSaoLeMGshT14LjjtGEvHiduh5877SU+z9nFEQw1MAnjxa9GX5kjEQjzH2Q5beZIwZWbx5d1ovmfB0WqY/V88SB daniel@MacBook-Pro'
+    - name: Create VPC
+      ec2_vpc_net:
+        name: vpc_net1
+        cidr_block: 10.10.0.0/16
+        region: "{{ aws_region }}"
+      register: my_vpc
 
-  - name: Create VPC 
-    ec2_vpc_net:
-      name: vpc_net1
-      cidr_block: 10.10.0.0/16
-      region: "{{ aws_region }}" 
-    register: my_vpc  
+    - name: Create a security group
+      ec2_group:
+        name: ansible
+        description: Ansible Security Group
+        region: "{{ aws_region }}"
+        vpc_id: "{{ my_vpc.vpc.id }}"
+        rules:
+          - proto: all
+            cidr_ip: "0.0.0.0/0"
+          - proto: all
+            group_name: ansible
+        rules_egress:
+          - proto: all
+            cidr_ip: "0.0.0.0/0"
+      register: firewall
 
-  - name: Create a security group
-    ec2_group:
-      name: ansible
-      description: "Ansible Security Group"
-      region: "{{ aws_region }}"
-      vpc_id: "{{ my_vpc.vpc.id }}"
-      rules:
-        - proto: all
-          cidr_ip: 0.0.0.0/0
-        - proto: all
-          group_name: ansible
-      rules_egress:
-        - proto: all
-          cidr_ip: 0.0.0.0/0
-    register: firewall
+    - name: Create subnet
+      ec2_vpc_subnet:
+        state: present
+        region: "{{ aws_region }}"
+        vpc_id: "{{ my_vpc.vpc.id }}"
+        cidr: 10.10.10.0/24
+      register: my_subnet
 
-  - name: Create subnet
-    ec2_vpc_subnet:
-      state: present
-      region: "{{ aws_region }}"
-      vpc_id: "{{ my_vpc.vpc.id }}"
-      cidr: 10.10.10.0/24
-    register: my_subnet
+    - name: gather facts from route tables
+      ec2_vpc_route_table_info:
+        filters:
+          vpc-id: "{{ my_vpc.vpc.id }}"
+        region: "{{ aws_region }}"
+      register: route_table
 
-  - name: gather facts from route tables
-    ec2_vpc_route_table_info:
-      filters:
-        vpc-id: "{{ my_vpc.vpc.id }}"
-      region: "{{ aws_region }}"
-    register: route_table
+    - name: create internet gateway
+      ec2_vpc_igw:
+        region: "{{ aws_region }}"
+        vpc_id: "{{ my_vpc.vpc.id }}"
+      register: ec2_internet_gateway
 
-  - name: create internet gateway
-    ec2_vpc_igw:
-      region: "{{ aws_region }}"
-      vpc_id: "{{ my_vpc.vpc.id }}"
-    register: ec2_internet_gateway
+    - name: create routing table
+      ec2_vpc_route_table:
+        lookup: id
+        region: "{{ aws_region }}"
+        route_table_id: "{{ route_table.route_tables[0].id }}"
+        routes:
+          - dest: "0.0.0.0/0"
+            gateway_id: "{{ ec2_internet_gateway.gateway_id }}"
+        subnets:
+          - 10.10.0.0/16
+        vpc_id: "{{ my_vpc.vpc.id }}"
+      register: ec2_route_table
 
-  - name: create routing table
-    ec2_vpc_route_table:
-      lookup: id
-      region: "{{ aws_region }}"
-      route_table_id: "{{ route_table.route_tables[0].id }}"
-      routes:
-        - dest: 0.0.0.0/0
-          gateway_id: "{{ ec2_internet_gateway.gateway_id }}"
-      subnets:
-        - 10.10.0.0/16
-      vpc_id: "{{ my_vpc.vpc.id }}"
-    register: ec2_route_table
- 
-  - name: Pass variables to te next jobs
-    set_stats:
-      data:
-        aws_region: "{{ aws_region }}"
-        firewall: "{{ firewall }}"
-        ami_id: "{{ ami_id }}"
-        my_subnet: "{{ my_subnet }}"
-
+    - name: Pass variables to te next jobs
+      set_stats:
+        data:
+          aws_region: "{{ aws_region }}"
+          firewall: "{{ firewall }}"
+          ami_id: "{{ ami_id }}"
+          my_subnet: "{{ my_subnet }}"

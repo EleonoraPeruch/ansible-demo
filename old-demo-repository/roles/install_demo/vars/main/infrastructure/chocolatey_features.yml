@@ -1,14 +1,14 @@
 ---
 chocolatey_features:
-  author: "David Rojas"
-  readme: "https://github.com/ansible/product-demos/blob/master/docs/infrastructure/chocolatey_features.md"
+  author: David Rojas
+  readme: https://github.com/ansible/product-demos/blob/master/docs/infrastructure/chocolatey_features.md
   category: infrastructure
-  name: "INFRASTRUCTURE / Chocolatey Features Config"
-  description: "Enable or disable various Chocolatey features"
-  job_type: "run"
-  inventory: "Workshop Inventory"
-  playbook: "playbooks/infrastructure/chocolatey_features.yml"
-  credential: "Workshop Credential"
+  name: INFRASTRUCTURE / Chocolatey Features Config
+  description: Enable or disable various Chocolatey features
+  job_type: run
+  inventory: Workshop Inventory
+  playbook: playbooks/infrastructure/chocolatey_features.yml
+  credential: Workshop Credential
   survey_enabled: true
   survey_spec:
     name: Chocolatey Features Config
@@ -36,11 +36,11 @@ chocolatey_features:
           - disabled
   #video: "https://www.youtube.com/watch?v=pU8ZgSBuEJw&list=PLdu06OJoEf2bp-PNtxPP_2n7Avkax8TED"
   project:
-    name: "Ansible official demo project"
-    description: "prescriptive demos from Red Hat Management Business Unit"
-    organization: "Default"
+    name: Ansible official demo project
+    description: prescriptive demos from Red Hat Management Business Unit
+    organization: Default
     scm_type: git
-    scm_url: "https://github.com/ansible/product-demos"
+    scm_url: https://github.com/ansible/product-demos
   workshop_type:
     - windows
     - demo

@@ -12,4 +12,4 @@
 
     - name: print info to terminal window
       debug:
-        msg: "Red Hat Insights is installed and configured for {{ inventory_hostname }}"
+        msg: Red Hat Insights is installed and configured for {{ inventory_hostname }}
